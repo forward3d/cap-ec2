@@ -1,4 +1,4 @@
-# Capify::V3::Ec2
+# Cap-EC2
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'capify-v3-ec2'
+    gem 'cap-ec2'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install capify-v3-ec2
+    $ gem install cap-ec2
 
 ## Usage
 
