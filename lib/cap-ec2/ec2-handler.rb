@@ -26,6 +26,22 @@ module CapEC2
       )
     end
     
+    def server_names
+      puts defined_roles.map {|r| get_servers_for_role(r)}
+                   .flatten
+                   .uniq {|i| i.instance_id}
+                   .map {|i| i.tags["Name"]}
+                   .join("\n")
+    end
+    
+    def instance_ids
+      puts defined_roles.map {|r| get_servers_for_role(r)}
+                   .flatten
+                   .uniq {|i| i.instance_id}
+                   .map {|i| i.instance_id}
+                   .join("\n")
+    end
+    
     def defined_roles
       Capistrano::Configuration.env.send(:servers).send(:available_roles)
     end
