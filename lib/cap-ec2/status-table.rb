@@ -44,7 +44,7 @@ module CapEC2
         instance.instance_type.cyan,
         instance.contact_point.blue.bold,
         instance.availability_zone.magenta,
-        instance.tags["Role"].yellow,
+        instance.tags["Roles"].yellow,
         instance.tags["Stage"].yellow
       ]
     end

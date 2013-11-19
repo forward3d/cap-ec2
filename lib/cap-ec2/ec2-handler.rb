@@ -21,7 +21,13 @@ module CapEC2
     end
     
     def status_table
-      CapEC2::StatusTable.new(get_instances_for_project)
+      CapEC2::StatusTable.new(
+        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}
+      )
+    end
+    
+    def defined_roles
+      Capistrano::Configuration.env.send(:servers).send(:available_roles)
     end
     
     def stage
@@ -55,15 +61,6 @@ module CapEC2
           .filter(tag(project_tag), application)
           .filter(tag(stages_tag), stage)
         servers << instances.select {|i| i.tags[roles_tag] =~ /,{0,1}#{role}(,|$)/}
-                            .map {|i| i.contact_point}
-      end
-      servers.flatten
-    end
-    
-    def get_instances_for_project
-      servers = []
-      each_region do |ec2|
-        servers << ec2.instances.filter(tag(project_tag), application).map {|i| i}
       end
       servers.flatten
     end

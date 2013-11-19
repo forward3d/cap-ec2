@@ -17,7 +17,7 @@ module Capistrano
     
     def ec2_role(name, options={})
       ec2_handler.get_servers_for_role(name).each do |server|
-        env.role(name, server, options)
+        env.role(name, server.contact_point, options)
       end
     end
     
