@@ -14,7 +14,7 @@ This documentation assumes familiarity with Capistrano 3.x.
 A number of features that are in Capify-EC2 are not yet available in Cap-EC2, due to the 
 architectural changes in Capistrano 3.x. The following features are missing (this is not
 an exhaustive list!):
-* rolling deploy (this should be implemented via (SSHKit)[https://github.com/capistrano/sshkit])
+* rolling deploy (this should be implemented via [SSHKit](https://github.com/capistrano/sshkit))
 * ELB registration/de-registration (not widely used)
 * using IAM roles to provide credentials
 * Variables set by EC2 tags
