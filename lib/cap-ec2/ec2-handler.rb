@@ -32,17 +32,29 @@ module CapEC2
       Capistrano::Configuration.env.fetch(:application).to_s
     end
     
-    def project
-      Capistrano::Configuration.env.fetch(:project).to_s
+    def project_tag
+      @ec2_config["project_tag"] || "Project"
+    end
+    
+    def roles_tag
+      @ec2_config["roles_tag"] || "Roles"
+    end
+    
+    def stages_tag
+      @ec2_config["stages_tag"] || "Stage"
+    end
+    
+    def tag(tag_name)
+      "tag:#{tag_name}"
     end
     
     def get_servers_for_role(role)
       servers = []
       each_region do |ec2|
         instances = ec2.instances
-          .filter("tag:Project", application)
-          .filter("tag:Stage", stage)
-        servers << instances.select {|i| i.tags["Role"] =~ /,{0,1}#{role}(,|$)/}
+          .filter(tag(project_tag), application)
+          .filter(tag(stages_tag), stage)
+        servers << instances.select {|i| i.tags[roles_tag] =~ /,{0,1}#{role}(,|$)/}
                             .map {|i| i.contact_point}
       end
       servers.flatten
@@ -51,7 +63,7 @@ module CapEC2
     def get_instances_for_project
       servers = []
       each_region do |ec2|
-        servers << ec2.instances.filter("tag:Project", application).map {|i| i}
+        servers << ec2.instances.filter(tag(project_tag), application).map {|i| i}
       end
       servers.flatten
     end
