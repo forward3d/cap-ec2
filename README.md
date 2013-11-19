@@ -114,7 +114,8 @@ the role `:web` to any instance that has the following properties:
 * has a tag called "Project" that contains the string "testapp"
 * has a tag called "Stage" that contains the current stage we're executing (in this case, "production")
 
-Looking at the above table, we can see we would match only `server-1`.
+Looking at the above table, we can see we would match `server-1` and `server-2`. (You can have multiple
+roles in tag separated by commas.)
 
 Now we can define the other roles:
 
