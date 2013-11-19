@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   
   spec.add_dependency "aws-sdk"
   spec.add_dependency "capistrano", ">= 3.0"
+  spec.add_dependency "terminal-table"
+  spec.add_dependency "colored"
 end
