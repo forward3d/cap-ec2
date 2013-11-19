@@ -1,10 +1,3 @@
-require 'aws-sdk'
-require_relative 'instance'
-require 'yaml'
-require 'capistrano/configuration'
-require 'terminal-table'
-require 'colored'
-
 module CapEC2
   class EC2Handler
     

@@ -1,5 +1,3 @@
-require 'aws-sdk'
-
 module CapEC2
   class StatusTable
     

@@ -1,7 +1,12 @@
 require 'capistrano/setup'
 require 'capistrano/configuration'
+require 'aws-sdk'
+require 'colored'
+require 'terminal-table'
+require 'yaml'
 require_relative 'ec2-handler'
 require_relative 'status-table'
+require_relative 'instance'
 
 # Load extra tasks
 load File.expand_path("../tasks/ec2.rake", __FILE__)
