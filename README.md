@@ -20,7 +20,8 @@ an exhaustive list!):
 * Variables set by EC2 tags
 * Connecting to instances via SSH using a convenience task
 
-Pull requests for these 
+Pull requests for these would be welcomed, as would sending feedback via the Issues on this project about
+features you would like.
 
 ## Installation
 
