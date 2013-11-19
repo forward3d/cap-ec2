@@ -1,6 +1,10 @@
 require 'capistrano/setup'
 require 'capistrano/configuration'
 require_relative 'ec2-handler'
+require_relative 'status-table'
+
+# Load extra tasks
+load File.expand_path("../tasks/ec2.rake", __FILE__)
 
 # Monkey patch into Capistrano v3
 
@@ -12,7 +16,9 @@ module Capistrano
     end
     
     def ec2_role(name, options={})
-      env.role(name, ec2_handler.get_servers_for_role(name), {})
+      ec2_handler.get_servers_for_role(name).each do |server|
+        env.role(name, server, options)
+      end
     end
     
     def env
