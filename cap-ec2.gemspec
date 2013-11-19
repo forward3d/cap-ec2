@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = CapEC2::VERSION
   spec.authors       = ["Andy Sykes"]
   spec.email         = ["github@tinycat.co.uk"]
-  spec.description   = %q{yerk}
-  spec.summary       = %q{yerk}
+  spec.description   = %q{Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, dynamically building the list of servers to be deployed to.}
+  spec.summary       = %q{Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, dynamically building the list of servers to be deployed to.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
