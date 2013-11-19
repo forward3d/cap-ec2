@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["github@tinycat.co.uk"]
   spec.description   = %q{Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, dynamically building the list of servers to be deployed to.}
   spec.summary       = %q{Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, dynamically building the list of servers to be deployed to.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/forward3d/cap-ec2"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
