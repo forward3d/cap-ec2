@@ -197,6 +197,11 @@ Example:
     i-abcdefgh
     i-hgfedcba
 
+## Acknowledgements
+
+Thanks to [Rylon](https://github.com/Rylon) for maintaining Capify-EC2 and 
+reviewing my thought processes for this project.
+
 ## Contributing
 
 1. Fork it
