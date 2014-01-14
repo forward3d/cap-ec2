@@ -68,8 +68,9 @@ module CapEC2
       each_region do |ec2|
         instances = ec2.instances
           .filter(tag(project_tag), application)
-          .filter(tag(stages_tag), stage)
-        servers << instances.select {|i| i.tags[roles_tag] =~ /,{0,1}#{role}(,|$)/}
+        servers << instances.select do |i| 
+          i.tags[roles_tag] =~ /,{0,1}#{role}(,|$)/ && i.tags[stages_tag] =~ /,{0,1}#{stage}(,|$)/
+        end
       end
       servers.flatten
     end
