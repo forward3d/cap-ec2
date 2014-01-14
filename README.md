@@ -130,6 +130,12 @@ role would apply to `server-3`.
 
 In the "staging" stage, all roles would apply *only* to `server-4`.
 
+### Servers in multiple stages
+
+If your use-case requires servers to be in multiple stages, simply specify all the stages you want
+the server to be in 'Stages' tag, separated by commas. For example, you could place a server in
+the `production` and `staging` stages by setting the 'Stages' tag to `production,staging`.
+
 ### Passing options to roles
 
 You can pass options when defining your roles. The options are *exactly* the same as the options that
