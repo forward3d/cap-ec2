@@ -56,7 +56,7 @@ module CapEC2
     end
     
     def stages_tag
-      @ec2_config["stages_tag"] || "Stage"
+      @ec2_config["stages_tag"] || "Stages"
     end
     
     def tag(tag_name)
