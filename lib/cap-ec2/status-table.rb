@@ -1,8 +1,10 @@
 module CapEC2
   class StatusTable
+    include CapEC2::Utils
     
-    def initialize(instances)
+    def initialize(instances, ec2_config)
       @instances = instances
+      @ec2_config = ec2_config
       output
     end
     
@@ -15,7 +17,7 @@ module CapEC2
         "DNS".bold,
         "Zone".bold,
         "Roles".bold,
-        "Stage".bold
+        "Stages".bold
       ]
     end
     
@@ -42,8 +44,8 @@ module CapEC2
         instance.instance_type.cyan,
         instance.contact_point.blue.bold,
         instance.availability_zone.magenta,
-        instance.tags["Roles"].yellow,
-        instance.tags["Stage"].yellow
+        instance.tags[roles_tag].yellow,
+        instance.tags[stages_tag].yellow
       ]
     end
   end

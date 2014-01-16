@@ -1,5 +1,6 @@
 module CapEC2
   class EC2Handler
+    include CapEC2::Utils
     
     def initialize(ec2_config = "config/ec2.yml")
       @ec2_config = YAML.load_file ec2_config
@@ -15,7 +16,8 @@ module CapEC2
     
     def status_table
       CapEC2::StatusTable.new(
-        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}
+        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id},
+        @ec2_config
       )
     end
     
@@ -45,18 +47,6 @@ module CapEC2
     
     def application
       Capistrano::Configuration.env.fetch(:application).to_s
-    end
-    
-    def project_tag
-      @ec2_config["project_tag"] || "Project"
-    end
-    
-    def roles_tag
-      @ec2_config["roles_tag"] || "Roles"
-    end
-    
-    def stages_tag
-      @ec2_config["stages_tag"] || "Stages"
     end
     
     def tag(tag_name)
