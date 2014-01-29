@@ -62,7 +62,7 @@ The following are optional settings you can use.
 * stages_tag
 
   If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
-  a given stage. The tag name defaults to "Stage".
+  a given stage. The tag name defaults to "Stages".
 
 * roles_tag
 
@@ -115,7 +115,7 @@ Let's say we edited `config/deploy/production.rb`. Adding this configuration to 
 the role `:web` to any instance that has the following properties:
 * has a tag called "Roles" that contains the string "web"
 * has a tag called "Project" that contains the string "testapp"
-* has a tag called "Stage" that contains the current stage we're executing (in this case, "production")
+* has a tag called "Stages" that contains the current stage we're executing (in this case, "production")
 
 Looking at the above table, we can see we would match `server-1` and `server-2`. (You can have multiple
 roles in tag separated by commas.)
