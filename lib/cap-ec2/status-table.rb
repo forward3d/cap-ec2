@@ -39,7 +39,7 @@ module CapEC2
     def instance_to_row(instance, index)
       [
         sprintf("%02d:", index),
-        instance.tags["Name"].green,
+        (instance.tags["Name"] || '').green,
         instance.id.red,
         instance.instance_type.cyan,
         instance.contact_point.blue.bold,
