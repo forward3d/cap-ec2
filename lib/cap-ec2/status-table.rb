@@ -42,7 +42,7 @@ module CapEC2
         (instance.tags["Name"] || '').green,
         instance.id.red,
         instance.instance_type.cyan,
-        instance.contact_point.blue.bold,
+        CapEC2::Utils.contact_point(instance).blue.bold,
         instance.availability_zone.magenta,
         instance.tags[roles_tag].yellow,
         instance.tags[stages_tag].yellow
