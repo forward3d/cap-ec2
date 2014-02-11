@@ -16,3 +16,14 @@ namespace :ec2 do
   end
   
 end
+
+
+namespace :load do
+  task :defaults do
+
+    set :ec2_project_tag, 'Project'
+    set :ec2_roles_tag, 'Roles'
+    set :ec2_stages_tag, 'Stages'
+
+  end
+end
