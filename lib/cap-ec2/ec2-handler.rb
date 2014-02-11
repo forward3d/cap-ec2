@@ -2,22 +2,26 @@ module CapEC2
   class EC2Handler
     include CapEC2::Utils
     
-    def initialize(ec2_config = "config/ec2.yml")
-      @ec2_config = YAML.load_file ec2_config
+    def initialize
+      load_config
+      configured_regions = get_regions(fetch(:ec2_region))
       @ec2 = {}
-      @ec2_config["regions"].each do |region|
-        @ec2[region] = AWS::EC2.new(
-        access_key_id: @ec2_config["access_key_id"],
-        secret_access_key: @ec2_config["secret_access_key"],
+      configured_regions.each do |region|
+        @ec2[region] = ec2_connect(region)
+      end
+    end
+    
+    def ec2_connect(region=nil)
+      AWS::EC2.new(
+        access_key_id: fetch(:ec2_access_key_id),
+        secret_access_key: fetch(:ec2_secret_access_key),
         region: region
       )
-      end
     end
     
     def status_table
       CapEC2::StatusTable.new(
-        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id},
-        @ec2_config
+        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}
       )
     end
     
@@ -55,7 +59,7 @@ module CapEC2
     
     def get_servers_for_role(role)
       servers = []
-      each_region do |ec2|
+      @ec2.each do |_, ec2|
         instances = ec2.instances
           .filter(tag(project_tag), application)
           .filter('instance-state-code', '16')
@@ -64,12 +68,6 @@ module CapEC2
         end
       end
       servers.flatten
-    end
-    
-    def each_region
-      @ec2.keys.each do |region|
-        yield @ec2[region]
-      end
     end
     
   end

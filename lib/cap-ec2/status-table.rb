@@ -2,9 +2,8 @@ module CapEC2
   class StatusTable
     include CapEC2::Utils
     
-    def initialize(instances, ec2_config)
+    def initialize(instances)
       @instances = instances
-      @ec2_config = ec2_config
       output
     end
     
