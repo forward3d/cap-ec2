@@ -11,5 +11,10 @@ module CapEC2
     def stages_tag
       @ec2_config["stages_tag"] || "Stages"
     end 
+    
+    def self.contact_point(instance)
+      instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
+    end
+    
   end
 end
