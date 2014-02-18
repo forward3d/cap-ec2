@@ -16,7 +16,7 @@ module Capistrano
     module Ec2
 
       def ec2_handler
-        @ec2_handler ||= CapEC2::EC2Handler.new(env.fetch(:ec2_config, "config/ec2.yml"))
+        @ec2_handler ||= CapEC2::EC2Handler.new
       end
     
       def ec2_role(name, options={})
