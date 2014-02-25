@@ -2,23 +2,22 @@
 
 [![Code Climate](https://codeclimate.com/github/forward3d/cap-ec2.png)](https://codeclimate.com/github/forward3d/cap-ec2)
 
-Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, 
+Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags,
 dynamically building the list of servers to be deployed to.
 
 ## Notes
 
-Cap-EC2 is only compatible with Capistrano 3.x or later; if you want the Capistrano 2.x version, 
+Cap-EC2 is only compatible with Capistrano 3.x or later; if you want the Capistrano 2.x version,
 use [Capify-EC2](https://github.com/forward/capify-ec2). Note that the configuration file (`config/ec2.yml`)
 is not compatible between versions either.
 
 This documentation assumes familiarity with Capistrano 3.x.
 
-A number of features that are in Capify-EC2 are not yet available in Cap-EC2, due to the 
+A number of features that are in Capify-EC2 are not yet available in Cap-EC2, due to the
 architectural changes in Capistrano 3.x. The following features are missing (this is not
 an exhaustive list!):
 * rolling deploy (this should be implemented via [SSHKit](https://github.com/capistrano/sshkit))
 * ELB registration/de-registration (not widely used)
-* using IAM roles to provide credentials
 * Variables set by EC2 tags
 * Connecting to instances via SSH using a convenience task
 
@@ -31,34 +30,49 @@ features you would like.
 
 or add the gem to your project's Gemfile.
 
-You will need to create a YAML configuration file at `config/ec2.yml` that looks like the following:
-
-```ruby
-access_key_id: "YOUR ACCESS KEY"
-secret_access_key: "YOUR SECRET KEY"
-regions:
- - 'eu-west-1'
-```
-
 You also need to add the gem to your Capfile:
 
 ```ruby
 require "cap-ec2/capistrano"
 ```
 
+
 ## Configuration
 
-Your `config/ec2.yml` file must contain at least the information above (`access_key_id`, `secret_access_key`, `regions`).
-Omitting any of these will raise an exception.
+Configurable options, shown here with defaults:
 
-The following are optional settings you can use.
+```ruby
+set :ec2_config, 'config/ec2.yml'
+
+set :ec2_project_tag, 'Project'
+set :ec2_roles_tag, 'Roles'
+set :ec2_stages_tag, 'Stages'
+
+set :ec2_access_key_id, nil
+set :ec2_secret_access_key, nil
+set :ec2_region, %w{}
+```
+
+#### Order of inheritance
+`cap-ec2` supports multiple methods of configuration. The order of inheritance is:
+YAML File > User Capistrano Config > Default Capistrano Config > ENV variables.
+
+#### Regions
+`:ec2_region` is an array of [AWS regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region), if not present all regions will be checked for matching instances - this the default behavior and can be slow, if speed is an issue consider setting your required regions.
+
+If`:ec2_access_key_id` or `:ec2_secret_access_key` are not set in any configuration the environment variables
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` will be checked.
+If running on EC2 the IAM instance profile credentials will be used if credentials are not set by any other method.
+
+
+#### Misc settings
 
 * project_tag
-  
+
   If this is defined, Cap-EC2 will look for a tag with this name when searching for instances belong
   to this project. Cap-EC2 will look for a value which matches the `:application` setting in your
   `deploy.rb`. The tag name defaults to "Project".
-  
+
 * stages_tag
 
   If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
@@ -67,7 +81,29 @@ The following are optional settings you can use.
 * roles_tag
 
   If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
-  a given role. The tag name defaults to "Roles". 
+  a given role. The tag name defaults to "Roles".
+
+
+### YAML Configuration
+
+
+If you'd prefer do your configuration via a YAML file `config/ec2.yml` can be used, (or an alternative name/location set via `set :ec2_config`):
+
+If so YAML file will look like this:
+
+```ruby
+access_key_id: "YOUR ACCESS KEY"
+secret_access_key: "YOUR SECRET KEY"
+regions:
+ - 'eu-west-1'
+project_tag: "Project"
+roles_tag: "Roles"
+stages_tag: "Stages"
+```
+
+
+Your `config/ec2.yml` file can contain (`access_key_id`, `secret_access_key`, `regions`) - if a value is omitted then the order of inheritance is followed.
+
 
 ## Usage
 
@@ -160,7 +196,7 @@ trivial to add.
 ### Tasks and deployment
 
 You can now define your tasks for these roles in exactly the same way as you would if you weren't
-using this gem. 
+using this gem.
 
 ## Utility tasks
 
@@ -176,7 +212,7 @@ This command will show you information all the instances your configuration matc
 Example:
 
     $ cap production ec2:status
-    
+
     Num  Name                          ID          Type      DNS              Zone        Roles         Stage
     00:  server-1-20131030-1144-0      i-abcdefgh  m1.small  192.168.202.248  us-west-2c  banana,apple  production
     01:  server-2-20131118-1839-0      i-hgfedcba  m1.small  192.168.200.60   us-west-2a  banana        production
@@ -191,23 +227,23 @@ Example:
 
     $ cap production ec2:server_names
     server-1-20131030-1144-0
-    server-2-20131118-1839-0 
+    server-2-20131118-1839-0
 
 ### View server instance IDs
-  
+
 This command will show the instance IDs of the instances matching the given stage:
-  
+
     cap [stage] ec2:instance_ids
-  
+
 Example:
-  
+
     $ cap production ec2:instance_ids
     i-abcdefgh
     i-hgfedcba
 
 ## Acknowledgements
 
-Thanks to [Rylon](https://github.com/Rylon) for maintaining Capify-EC2 and 
+Thanks to [Rylon](https://github.com/Rylon) for maintaining Capify-EC2 and
 reviewing my thought processes for this project.
 
 ## Contributing

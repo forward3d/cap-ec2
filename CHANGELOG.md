@@ -1,5 +1,10 @@
 # Cap-EC2 changelog
 
+## 0.0.8
+
+* Made `config/ec2.yml` optional, set all options by Capistrano variable. [@rjocoleman](https://github.com/rjocoleman)
+* Remove requirement for default region to be set. [@rjocoleman](https://github.com/rjocoleman)
+
 ## 0.0.7
 
 * Removed monkey patching of `Capistrano::TaskEnhancements` [@rjocoleman](https://github.com/rjocoleman)
