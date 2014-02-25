@@ -96,9 +96,9 @@ access_key_id: "YOUR ACCESS KEY"
 secret_access_key: "YOUR SECRET KEY"
 regions:
  - 'eu-west-1'
- project_tag: "Project"
- roles_tag: "Roles"
- stages_tag: "Stages"
+project_tag: "Project"
+roles_tag: "Roles"
+stages_tag: "Stages"
 ```
 
 
