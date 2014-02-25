@@ -33,7 +33,7 @@ module CapEC2
     end
 
     def get_regions(regions_array=nil)
-      unless regions_array.empty?
+      unless regions_array.nil? || regions_array.empty?
         return regions_array
       else
         @ec2 = ec2_connect

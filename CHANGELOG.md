@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.9
+
+* Handle no configured regions, (or specifically nil).
+
 ## 0.0.8
 
 * Made `config/ec2.yml` optional, set all options by Capistrano variable. [@rjocoleman](https://github.com/rjocoleman)
