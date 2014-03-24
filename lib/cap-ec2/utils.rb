@@ -1,5 +1,6 @@
 module CapEC2
   module Utils
+
     def project_tag
       fetch(:ec2_project_tag)
     end
@@ -12,8 +13,19 @@ module CapEC2
       fetch(:ec2_stages_tag)
     end
 
+    def self.contact_point_mapping
+      {
+        :public_dns => :public_dns_name,
+        :public_ip => :public_ip_address,
+        :private_ip => :private_ip_address
+      }
+    end
+
     def self.contact_point(instance)
-      instance.send(fetch(:ec2_contact_point))
+      ec2_interface = contact_point_mapping[fetch(:ec2_contact_point)]
+      return instance.send(ec2_interface) if ec2_interface
+
+      instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
     end
 
     def load_config
