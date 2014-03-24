@@ -31,5 +31,7 @@ namespace :load do
     set :ec2_secret_access_key, nil
     set :ec2_region, %w{}
 
+    set :ec2_contact_point, :public_dns_name
+
   end
 end

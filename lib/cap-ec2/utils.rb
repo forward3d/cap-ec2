@@ -13,7 +13,7 @@ module CapEC2
     end
 
     def self.contact_point(instance)
-      instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
+      instance.send(fetch(:ec2_contact_point))
     end
 
     def load_config
