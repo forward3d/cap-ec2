@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.10
+
+* Allow configurable setting of the EC2 contact point [@christianblunden](https://github.com/christianblunden)
+
 ## 0.0.9
 
 * Handle no configured regions, (or specifically nil).
