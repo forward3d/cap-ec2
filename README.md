@@ -199,6 +199,26 @@ trivial to add.
 You can now define your tasks for these roles in exactly the same way as you would if you weren't
 using this gem.
 
+### Contacting instances
+
+By default, Cap-EC2 will attempt to communicate with the EC2 instance using the following instance
+interfaces in order:
+
+1. Public DNS (`:public_dns`)
+2. Public IP (`:public_ip`)
+3. Private IP (`:private_ip`)
+
+This can be configured using the Capistrano variable `:ec2_contact_point`, and supplying one
+of the above symbols. For example:
+
+```ruby
+set :ec2_contact_point, :private_ip
+```
+
+This would cause Cap-EC2 to try communicating with the instance on its private IP address. If you leave
+this variable unset, the behaviour is as in previous Cap-EC2 instances (falling through the lookup list
+as specified above).
+
 ## Utility tasks
 
 Cap-EC2 adds a few utility tasks to Capistrano for displaying information about the instances that
@@ -217,22 +237,6 @@ Example:
     Num  Name                          ID          Type      DNS              Zone        Roles         Stage
     00:  server-1-20131030-1144-0      i-abcdefgh  m1.small  192.168.202.248  us-west-2c  banana,apple  production
     01:  server-2-20131118-1839-0      i-hgfedcba  m1.small  192.168.200.60   us-west-2a  banana        production
-
-### DNS
-
-By default cap-EC2 will attempt to communicate with the ec2 instance using the following addresses (in order).
-
-1. Public DNS `:public_dns`
-2. Public IP `:public_ip`
-3. Private IP `:private_ip`
-
-This can be configured using the `set :ec2_contact_point`
-
-example
-
-```ruby
-set :ec2_contact_point, :private_ip
-```
 
 ### View server names
 
