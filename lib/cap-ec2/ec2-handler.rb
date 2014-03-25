@@ -42,7 +42,7 @@ module CapEC2
     end
 
     def defined_roles
-      Capistrano::Configuration.env.send(:servers).send(:available_roles)
+      Capistrano::Configuration.env.send(:servers).send(:available_roles).sort
     end
 
     def stage
