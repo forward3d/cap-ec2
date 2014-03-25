@@ -51,6 +51,7 @@ set :ec2_stages_tag, 'Stages'
 set :ec2_access_key_id, nil
 set :ec2_secret_access_key, nil
 set :ec2_region, %w{}
+set :ec2_contact_point, nil
 ```
 
 #### Order of inheritance
@@ -216,6 +217,22 @@ Example:
     Num  Name                          ID          Type      DNS              Zone        Roles         Stage
     00:  server-1-20131030-1144-0      i-abcdefgh  m1.small  192.168.202.248  us-west-2c  banana,apple  production
     01:  server-2-20131118-1839-0      i-hgfedcba  m1.small  192.168.200.60   us-west-2a  banana        production
+
+### DNS
+
+By default cap-EC2 will attempt to communicate with the ec2 instance using the following addresses (in order).
+
+1. Public DNS `:public_dns`
+2. Public IP `:public_ip`
+3. Private IP `:private_ip`
+
+This can be configured using the `set :ec2_contact_point`
+
+example
+
+```ruby
+set :ec2_contact_point, :private_ip
+```
 
 ### View server names
 
