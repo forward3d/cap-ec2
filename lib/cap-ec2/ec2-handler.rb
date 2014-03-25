@@ -69,7 +69,7 @@ module CapEC2
             instance_has_tag?(i, project_tag, application)
         end
       end
-      servers.flatten
+      servers.flatten.sort_by {|s| s.tags["Name"]}
     end
 
     private
