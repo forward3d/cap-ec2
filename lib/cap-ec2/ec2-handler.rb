@@ -61,14 +61,15 @@ module CapEC2
       servers = []
       @ec2.each do |_, ec2|
         instances = ec2.instances
-          .filter(tag(project_tag), application)
+          .filter(tag(project_tag), "*#{application}*")
           .filter('instance-state-code', '16')
         servers << instances.select do |i|
-          i.tags[roles_tag] =~ /,{0,1}#{role}(,|$)/ && i.tags[stages_tag] =~ /,{0,1}#{stage}(,|$)/
+          i.tags[roles_tag].split(',').include?(role.to_s) &&
+            i.tags[stages_tag].split(',').include?(stage.to_s) &&
+            i.tags[project_tag].split(',').include?(application.to_s)
         end
       end
       servers.flatten
     end
-
   end
 end
