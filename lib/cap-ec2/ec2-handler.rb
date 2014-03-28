@@ -64,12 +64,18 @@ module CapEC2
           .filter(tag(project_tag), "*#{application}*")
           .filter('instance-state-code', '16')
         servers << instances.select do |i|
-          i.tags[roles_tag].split(',').include?(role.to_s) &&
-            i.tags[stages_tag].split(',').include?(stage.to_s) &&
-            i.tags[project_tag].split(',').include?(application.to_s)
+          instance_has_tag?(i, roles_tag, role) &&
+            instance_has_tag?(i, stages_tag, stage) &&
+            instance_has_tag?(i, project_tag, application)
         end
       end
       servers.flatten
+    end
+
+    private
+
+    def instance_has_tag?(instance, key, value)
+      instance.tags[key].split(',').map(&:strip).include?(value.to_s)
     end
   end
 end
