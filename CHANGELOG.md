@@ -1,5 +1,11 @@
 # Cap-EC2 changelog
 
+## 0.0.11
+
+* Allow instances to have multiple projects deployed to them. [@rsslldnphy](https://github.com/rsslldnphy)
+* Fix the way instance tag matching works; the previous regex was not sufficient to ensure 
+  absolute matching of a given tag. [@rsslldnphy](https://github.com/rsslldnphy)
+
 ## 0.0.10
 
 * Allow configurable setting of the EC2 contact point [@christianblunden](https://github.com/christianblunden)

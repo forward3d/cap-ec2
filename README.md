@@ -167,6 +167,13 @@ role would apply to `server-3`.
 
 In the "staging" stage, all roles would apply *only* to `server-4`.
 
+### Servers belonging to multiple projects
+
+If you require your servers to have multiple projects deployed to them, you can simply specify
+all the project names you want to the server to be part of in the 'Projects' tag, separated
+by commas. For example, you could place a server in the `testapp` and `myapp` projects by
+setting the 'Projects' tag to `testapp,myapp`.
+
 ### Servers in multiple stages
 
 If your use-case requires servers to be in multiple stages, simply specify all the stages you want
