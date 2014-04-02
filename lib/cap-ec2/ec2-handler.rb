@@ -62,7 +62,7 @@ module CapEC2
       @ec2.each do |_, ec2|
         instances = ec2.instances
           .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-code', '16')
+          .filter('instance-state-name', 'running')
         servers << instances.select do |i|
           instance_has_tag?(i, roles_tag, role) &&
             instance_has_tag?(i, stages_tag, stage) &&
