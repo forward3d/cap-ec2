@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.12
+
+* Use the instance's named state for searching for instances, rather than the code [@ronny](https://github.com/ronny)
+
 ## 0.0.11
 
 * Allow instances to have multiple projects deployed to them. [@rsslldnphy](https://github.com/rsslldnphy)
