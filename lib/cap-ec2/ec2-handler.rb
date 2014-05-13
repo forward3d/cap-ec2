@@ -75,7 +75,7 @@ module CapEC2
     private
 
     def instance_has_tag?(instance, key, value)
-      instance.tags[key].split(',').map(&:strip).include?(value.to_s)
+      (instance.tags[key] || '').split(',').map(&:strip).include?(value.to_s)
     end
   end
 end
