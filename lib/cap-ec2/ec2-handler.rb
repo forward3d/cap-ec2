@@ -22,12 +22,12 @@ module CapEC2
 
     def status_table
       CapEC2::StatusTable.new(
-        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}
+        defined_roles.map {|r| get_servers_for_role(r).values }.flatten.uniq {|i| i.instance_id}
       )
     end
 
     def server_names
-      puts defined_roles.map {|r| get_servers_for_role(r)}
+      puts defined_roles.map {|r| get_servers_for_role(r).values }
                    .flatten
                    .uniq {|i| i.instance_id}
                    .map {|i| i.tags["Name"]}
@@ -35,7 +35,7 @@ module CapEC2
     end
 
     def instance_ids
-      puts defined_roles.map {|r| get_servers_for_role(r)}
+      puts defined_roles.map {|r| get_servers_for_role(r).values }
                    .flatten
                    .uniq {|i| i.instance_id}
                    .map {|i| i.instance_id}
@@ -82,6 +82,7 @@ module CapEC2
     end
 
     def instance_tags_matching(instance, key, values)
+      return [] instance.tags[key].nil?
       instance.tags[key].split(',').map(&:strip) & Array(values)
     end
   end
