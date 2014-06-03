@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.13
+
+* Use AWS.memoize to speed up communication with AWS [@cheald](https://github.com/cheald)
+
 ## 0.0.12
 
 * Use the instance's named state for searching for instances, rather than the code [@ronny](https://github.com/ronny)
@@ -7,7 +11,7 @@
 ## 0.0.11
 
 * Allow instances to have multiple projects deployed to them. [@rsslldnphy](https://github.com/rsslldnphy)
-* Fix the way instance tag matching works; the previous regex was not sufficient to ensure 
+* Fix the way instance tag matching works; the previous regex was not sufficient to ensure
   absolute matching of a given tag. [@rsslldnphy](https://github.com/rsslldnphy)
 
 ## 0.0.10
