@@ -81,7 +81,7 @@ module CapEC2
     end
 
     def instance_tags_matching(instance, key, values)
-      return [] instance.tags[key].nil?
+      return [] if instance.tags[key].nil?
       instance.tags[key].split(',').map(&:strip) & Array(values)
     end
   end
