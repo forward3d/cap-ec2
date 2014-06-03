@@ -58,14 +58,14 @@ module CapEC2
       "tag:#{tag_name}"
     end
 
-    def get_servers_for_role(role)
+    def get_servers_for_role(roles)
       servers = []
       @ec2.each do |_, ec2|
         instances = ec2.instances
           .filter(tag(project_tag), "*#{application}*")
           .filter('instance-state-name', 'running')
         servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, role) &&
+          instance_has_tag?(i, roles_tag, roles) &&
             instance_has_tag?(i, stages_tag, stage) &&
             instance_has_tag?(i, project_tag, application)
         end
@@ -75,8 +75,10 @@ module CapEC2
 
     private
 
-    def instance_has_tag?(instance, key, value)
-      instance.tags[key].split(',').map(&:strip).include?(value.to_s)
+    def instance_has_tag?(instance, key, values)
+      Array(values).any? do |value|
+        instance.tags[key].split(',').map(&:strip).include?(value.to_s)
+      end
     end
   end
 end
