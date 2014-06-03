@@ -1,6 +1,6 @@
 # Cap-EC2
 
-[![Code Climate](https://codeclimate.com/github/forward3d/cap-ec2.png)](https://codeclimate.com/github/forward3d/cap-ec2)
+[![Gem Version](https://badge.fury.io/rb/cap-ec2.svg)](http://badge.fury.io/rb/cap-ec2) [![Code Climate](https://codeclimate.com/github/forward3d/cap-ec2.png)](https://codeclimate.com/github/forward3d/cap-ec2)
 
 Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags,
 dynamically building the list of servers to be deployed to.
