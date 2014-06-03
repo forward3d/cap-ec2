@@ -59,26 +59,30 @@ module CapEC2
     end
 
     def get_servers_for_role(roles)
-      servers = []
-      @ec2.each do |_, ec2|
-        instances = ec2.instances
-          .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-name', 'running')
-        servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, roles) &&
-            instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application)
+      roles = Array(roles).map(&:to_s)
+      @ec2.each.with_object({}) do |(_, ec2), out|
+        instances = ec2.instances.filter(tag(project_tag), "*#{application}*").filter('instance-state-name', 'running')
+
+        instances.each do |i|
+          if instance_has_tag?(i, stages_tag, stage) && instance_has_tag?(i, project_tag, application)
+            matching_roles = instance_tags_matching(i, roles_tag, roles).sort
+            if matching_roles.any?
+              out[matching_roles] ||= []
+              out[matching_roles] << i
+            end
+          end
         end
       end
-      servers.flatten.sort_by {|s| s.tags["Name"]}
     end
 
     private
 
     def instance_has_tag?(instance, key, values)
-      Array(values).any? do |value|
-        instance.tags[key].split(',').map(&:strip).include?(value.to_s)
-      end
+      instance_tags_matching(instance, key, values).any?
+    end
+
+    def instance_tags_matching(instance, key, values)
+      instance.tags[key].split(',').map(&:strip) & Array(values)
     end
   end
 end
