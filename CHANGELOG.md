@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.14
+
+* Fix issue when tag was present in EC2 but had no value. [@tomconroy](https://github.com/tomconroy)
+
 ## 0.0.13
 
 * Use AWS.memoize to speed up communication with AWS [@cheald](https://github.com/cheald)
