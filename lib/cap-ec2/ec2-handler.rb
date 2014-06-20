@@ -68,7 +68,7 @@ module CapEC2
           instance_has_tag?(i, roles_tag, role) &&
             instance_has_tag?(i, stages_tag, stage) &&
             instance_has_tag?(i, project_tag, application) &&
-            instance_status_ok?(i)
+            (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
         end
       end
       servers.flatten.sort_by {|s| s.tags["Name"]}

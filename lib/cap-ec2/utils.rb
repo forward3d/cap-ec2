@@ -40,6 +40,8 @@ module CapEC2
           set :ec2_access_key_id, config['access_key_id'] if config['access_key_id']
           set :ec2_secret_access_key, config['secret_access_key'] if config['secret_access_key']
           set :ec2_region, config['regions'] if config['regions']
+
+          set :ec2_filter_by_status_ok?, config['filter_by_status_ok?'] if config['filter_by_status_ok?']
         end
       end
     end
