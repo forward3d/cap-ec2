@@ -52,6 +52,8 @@ set :ec2_access_key_id, nil
 set :ec2_secret_access_key, nil
 set :ec2_region, %w{}
 set :ec2_contact_point, nil
+
+set :ec2_filter_by_status_ok?, nil
 ```
 
 #### Order of inheritance
@@ -84,6 +86,11 @@ If running on EC2 the IAM instance profile credentials will be used if credentia
   If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
   a given role. The tag name defaults to "Roles".
 
+* filter_by_status_ok?
+
+  If this is set to `true`, then Cap-EC2 will not return instances which do not have both EC2 status
+  checks as `OK`. By default this is set to `nil`, so Cap-EC2 can return you instances which don't have
+  `OK` status checks. Be warned that just-launched instances take a while to start returning `OK`.
 
 ### YAML Configuration
 

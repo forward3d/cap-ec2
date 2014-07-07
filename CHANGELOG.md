@@ -1,5 +1,10 @@
 # Cap-EC2 changelog
 
+## 0.0.15
+
+* Add `ec2_filter_by_status_ok?` to filter out instances that aren't returning `OK` 
+  for their EC2 status checks. [@tomconroy](https://github.com/tomconroy)
+
 ## 0.0.14
 
 * Fix issue when tag was present in EC2 but had no value. [@tomconroy](https://github.com/tomconroy)
