@@ -67,7 +67,8 @@ module CapEC2
         servers << instances.select do |i|
           instance_has_tag?(i, roles_tag, role) &&
             instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application)
+            instance_has_tag?(i, project_tag, application) &&
+            (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
         end
       end
       servers.flatten.sort_by {|s| s.tags["Name"]}
@@ -77,6 +78,16 @@ module CapEC2
 
     def instance_has_tag?(instance, key, value)
       (instance.tags[key] || '').split(',').map(&:strip).include?(value.to_s)
+    end
+
+    def instance_status_ok?(instance)
+      @ec2.any? do |_, ec2|
+        response = ec2.client.describe_instance_status(
+          instance_ids: [instance.id],
+          filters: [{ name: 'instance-status.status', values: %w(ok) }]
+        )
+        response.data.has_key?(:instance_status_set) && response.data[:instance_status_set].any?
+      end
     end
   end
 end
