@@ -9,14 +9,14 @@ module CapEC2
     
     def header_row
       [
-        "Num".bold,
-        "Name".bold,
-        "ID".bold,
-        "Type".bold,
-        "DNS".bold,
-        "Zone".bold,
-        "Roles".bold,
-        "Stages".bold
+        bold("Num"),
+        bold("Name"),
+        bold("ID"),
+        bold("Type"),
+        bold("DNS"),
+        bold("Zone"),
+        bold("Roles"),
+        bold("Stages")
       ]
     end
     
@@ -38,15 +38,28 @@ module CapEC2
     def instance_to_row(instance, index)
       [
         sprintf("%02d:", index),
-        (instance.tags["Name"] || '').green,
-        instance.id.red,
-        instance.instance_type.cyan,
-        CapEC2::Utils.contact_point(instance).blue.bold,
-        instance.availability_zone.magenta,
-        instance.tags[roles_tag].yellow,
-        instance.tags[stages_tag].yellow
+        green(instance.tags["Name"] || ''),
+        red(instance.id),
+        cyan(instance.instance_type),
+        bold(blue(CapEC2::Utils.contact_point(instance))),
+        magenta(instance.availability_zone),
+        yellow(instance.tags[roles_tag]),
+        yellow(instance.tags[stages_tag])
       ]
     end
+
+  private
+
+    (Colored::COLORS.keys + Colored::EXTRAS.keys).each do |format|
+      define_method(format) do |string|
+        if $stdout.tty?
+          string.__send__(format)
+        else
+          string
+        end
+      end
+    end
+
   end
 end
 
