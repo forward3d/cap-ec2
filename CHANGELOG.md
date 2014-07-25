@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.16
+
+* Don't colorize status table output if STDOUT is not a TTY. [@jcoglan](https://github.com/jcoglan)
+
 ## 0.0.15
 
 * Add `ec2_filter_by_status_ok?` to filter out instances that aren't returning `OK` 
