@@ -1,6 +1,13 @@
 module CapEC2
   module Utils
 
+    module Server
+      def ec2_tags
+        id = self.properties.fetch(:aws_instance_id)
+        ec2_handler.get_server(id).tags
+      end
+    end
+
     def project_tag
       fetch(:ec2_project_tag)
     end

@@ -41,3 +41,5 @@ module Capistrano
 end
 
 self.extend Capistrano::DSL::Ec2
+
+Capistrano::Configuration::Server.send(:include, CapEC2::Utils::Server)
