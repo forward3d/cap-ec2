@@ -75,6 +75,12 @@ module CapEC2
       end
     end
 
+    def get_server(instance_id)
+      @ec2.reduce([]) do |acc, (_, ec2)|
+        acc << ec2.instances[instance_id]
+      end.flatten.first
+    end
+
     private
 
     def instance_status_ok?(instance)
