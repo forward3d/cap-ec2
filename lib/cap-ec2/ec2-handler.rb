@@ -22,12 +22,12 @@ module CapEC2
 
     def status_table
       CapEC2::StatusTable.new(
-        defined_roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}
+        defined_roles.map {|r| get_servers_for_role(r).values }.flatten.uniq {|i| i.instance_id}
       )
     end
 
     def server_names
-      puts defined_roles.map {|r| get_servers_for_role(r)}
+      puts defined_roles.map {|r| get_servers_for_role(r).values }
                    .flatten
                    .uniq {|i| i.instance_id}
                    .map {|i| i.tags["Name"]}
@@ -35,7 +35,7 @@ module CapEC2
     end
 
     def instance_ids
-      puts defined_roles.map {|r| get_servers_for_role(r)}
+      puts defined_roles.map {|r| get_servers_for_role(r).values }
                    .flatten
                    .uniq {|i| i.instance_id}
                    .map {|i| i.instance_id}
@@ -58,27 +58,30 @@ module CapEC2
       "tag:#{tag_name}"
     end
 
-    def get_servers_for_role(role)
-      servers = []
-      @ec2.each do |_, ec2|
-        instances = ec2.instances
-          .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-name', 'running')
-        servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, role) &&
-            instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application) &&
-            (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
+    def get_servers_for_role(roles)
+      roles = Array(roles).map(&:to_s)
+      @ec2.each.with_object({}) do |(_, ec2), out|
+        instances = ec2.instances.filter(tag(project_tag), "*#{application}*").filter('instance-state-name', 'running')
+
+        instances.each do |i|
+          if instance_has_tag?(i, stages_tag, stage) && instance_has_tag?(i, project_tag, application)
+            matching_roles = instance_tags_matching(i, roles_tag, roles).sort
+            if matching_roles.any?
+              out[matching_roles] ||= []
+              out[matching_roles] << i
+            end
+          end
         end
       end
-      servers.flatten.sort_by {|s| s.tags["Name"]}
+    end
+
+    def get_server(instance_id)
+      @ec2.reduce([]) do |acc, (_, ec2)|
+        acc << ec2.instances[instance_id]
+      end.flatten.first
     end
 
     private
-
-    def instance_has_tag?(instance, key, value)
-      (instance.tags[key] || '').split(',').map(&:strip).include?(value.to_s)
-    end
 
     def instance_status_ok?(instance)
       @ec2.any? do |_, ec2|
@@ -88,6 +91,15 @@ module CapEC2
         )
         response.data.has_key?(:instance_status_set) && response.data[:instance_status_set].any?
       end
+    end
+
+    def instance_has_tag?(instance, key, values)
+      instance_tags_matching(instance, key, values).any?
+    end
+
+    def instance_tags_matching(instance, key, values)
+      return [] if instance.tags[key].nil?
+      (instance.tags[key].split(',') || '').map(&:strip) & Array(values)
     end
   end
 end
