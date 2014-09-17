@@ -71,7 +71,7 @@ module CapEC2
             (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
         end
       end
-      servers.flatten.sort_by {|s| s.tags["Name"]}
+      servers.flatten.sort_by {|s| s.tags["Name"] || ''}
     end
 
     private
