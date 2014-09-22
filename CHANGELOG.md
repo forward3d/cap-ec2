@@ -1,5 +1,10 @@
 # Cap-EC2 changelog
 
+## 0.0.17
+
+* Provide access to EC2 server tags within Capistrano recipes [@eightbitraptor](https://github.com/eightbitraptor)
+* Fix sorting of servers when there is no Name tag [@johnf](https://github.com/johnf)
+
 ## 0.0.16
 
 * Don't colorize status table output if STDOUT is not a TTY. [@jcoglan](https://github.com/jcoglan)
