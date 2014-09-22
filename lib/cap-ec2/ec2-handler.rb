@@ -74,6 +74,12 @@ module CapEC2
       servers.flatten.sort_by {|s| s.tags["Name"] || ''}
     end
 
+    def get_server(instance_id)
+      @ec2.reduce([]) do |acc, (_, ec2)|
+        acc << ec2.instances[instance_id]
+      end.flatten.first
+    end
+
     private
 
     def instance_has_tag?(instance, key, value)
