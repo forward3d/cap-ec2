@@ -43,7 +43,7 @@ module CapEC2
     end
 
     def defined_roles
-      Capistrano::Configuration.env.send(:servers).send(:available_roles).sort
+      roles(:all).flat_map(&:roles_array).uniq.sort
     end
 
     def stage
