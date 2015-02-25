@@ -72,18 +72,18 @@ If running on EC2 the IAM instance profile credentials will be used if credentia
 
 * project_tag
 
-  If this is defined, Cap-EC2 will look for a tag with this name when searching for instances belong
-  to this project. Cap-EC2 will look for a value which matches the `:application` setting in your
-  `deploy.rb`. The tag name defaults to "Project".
+  Cap-EC2 will look for a tag with this name when searching for instances that belong to this project. 
+  Cap-EC2 will look for a value which matches the :application setting in your deploy.rb. 
+  The tag name defaults to "Project" and must be set on your instances.
 
 * stages_tag
 
-  If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
+  Cap-EC2 will look for a tag with this name to determine which instances belong to
   a given stage. The tag name defaults to "Stages".
 
 * roles_tag
 
-  If this is defined, Cap-EC2 will look for a tag with this name to determine which instances belong to
+  Cap-EC2 will look for a tag with this name to determine which instances belong to
   a given role. The tag name defaults to "Roles".
 
 * filter_by_status_ok?
