@@ -1,5 +1,10 @@
 # Cap-EC2 changelog
 
+## 0.0.18
+
+* Update gemspec to explicitly use the AWS v1 SDK. [@Tomtomgo](https://github.com/Tomtomgo)
+* Fix available roles for newer Capistrano versions. [@AmirKremer](https://github.com/AmirKremer)
+
 ## 0.0.17
 
 * Provide access to EC2 server tags within Capistrano recipes [@eightbitraptor](https://github.com/eightbitraptor)
