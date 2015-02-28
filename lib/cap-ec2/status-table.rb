@@ -50,7 +50,7 @@ module CapEC2
 
   private
 
-    (Colored::COLORS.keys + Colored::EXTRAS.keys).each do |format|
+    (String.colors + String.modes).each do |format|
       define_method(format) do |string|
         if $stdout.tty?
           string.__send__(format)
