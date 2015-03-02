@@ -1,7 +1,7 @@
 require 'capistrano/setup'
 require 'capistrano/configuration'
 require 'aws-sdk-v1'
-require 'colored'
+require 'colorize'
 require 'terminal-table'
 require 'yaml'
 require_relative 'utils'
