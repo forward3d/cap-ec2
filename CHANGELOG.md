@@ -1,5 +1,9 @@
 # Cap-EC2 changelog
 
+## 0.0.19
+
+* Stop using the `colored` gem, switch to `colorize` instead. [@freakphp][https://github.com/freakphp]
+
 ## 0.0.18
 
 * Update gemspec to explicitly use the AWS v1 SDK. [@Tomtomgo](https://github.com/Tomtomgo)
