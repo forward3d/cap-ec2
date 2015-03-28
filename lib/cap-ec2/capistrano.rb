@@ -1,4 +1,3 @@
-require 'capistrano/setup'
 require 'capistrano/configuration'
 require 'aws-sdk-v1'
 require 'colorize'
