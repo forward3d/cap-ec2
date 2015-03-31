@@ -1,5 +1,13 @@
 # Cap-EC2 changelog
 
+## 1.0.0
+
+Cap-EC2 is pretty stable, and the rate of PRs has decreased, so I've
+decided to bump the version to 1.0.0.
+
+* Remove the require of `capistrano/setup`, so that people can make
+  use of `capistrano-multiconfig`. [@ashleybrown](https://github.com/ashleybrown)
+
 ## 0.0.19
 
 * Stop using the `colored` gem, switch to `colorize` instead. [@freakphp][https://github.com/freakphp]
