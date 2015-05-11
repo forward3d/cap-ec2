@@ -1,12 +1,12 @@
 module CapEC2
   class StatusTable
     include CapEC2::Utils
-    
+
     def initialize(instances)
       @instances = instances
       output
     end
-    
+
     def header_row
       [
         bold("Num"),
@@ -19,7 +19,7 @@ module CapEC2
         bold("Stages")
       ]
     end
-    
+
     def output
       table = Terminal::Table.new(
         :style => {
@@ -30,7 +30,7 @@ module CapEC2
       )
       table.add_row header_row
       @instances.each_with_index do |instance,index|
-        table.add_row instance_to_row(instance, index)
+        table.add_row instance_to_row(instance, index + 1)
       end
       puts table.to_s
     end
