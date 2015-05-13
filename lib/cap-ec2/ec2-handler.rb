@@ -87,13 +87,12 @@ module CapEC2
     end
 
     def instance_status_ok?(instance)
-      @ec2.any? do |_, ec2|
-        response = ec2.client.describe_instance_status(
-          instance_ids: [instance.id],
-          filters: [{ name: 'instance-status.status', values: %w(ok) }]
-        )
-        response.data.has_key?(:instance_status_set) && response.data[:instance_status_set].any?
-      end
+      region = instance.availability_zone[0..-2]
+      response = @ec2[region].client.describe_instance_status(
+        instance_ids: [instance.id],
+        filters: [{ name: 'instance-status.status', values: %w(ok) }]
+      )
+      response.data.has_key?(:instance_status_set) && response.data[:instance_status_set].any?
     end
   end
 end
