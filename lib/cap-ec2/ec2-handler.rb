@@ -59,19 +59,20 @@ module CapEC2
     end
 
     def get_servers_for_role(role)
-      servers = []
-      @ec2.each do |_, ec2|
-        instances = ec2.instances
-          .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-name', 'running')
-        servers << instances.select do |i|
+      @ec2.map do |_, ec2|
+        instances = project_tag ?
+                    ec2.instances.filter(tag(project_tag), "*#{application}*") :
+                    ec2.instances
+        filtered = instances.filter('instance-state-name', 'running')
+
+        filtered.select do |i|
           instance_has_tag?(i, roles_tag, role) &&
             instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application) &&
+            (project_tag.nil? || instance_has_tag?(i, project_tag, application)) &&
             (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
+
         end
-      end
-      servers.flatten.sort_by {|s| s.tags["Name"] || ''}
+      end.flatten.sort_by { |s| s.tags["Name"] || ''}
     end
 
     def get_server(instance_id)
