@@ -71,7 +71,8 @@ module CapEC2
             (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
         end
       end
-      servers.flatten.sort_by {|s| s.tags["Name"] || ''}
+      servers.flatten.sort_by {|s| s.tags["Name"] || ''}.
+        select{|i| !ENV['instance_name'] || (ENV['instance_name'] == i.tags['Name'])}
     end
 
     def get_server(instance_id)
