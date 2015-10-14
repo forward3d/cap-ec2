@@ -50,6 +50,7 @@ set :ec2_stages_tag, 'Stages'
 
 set :ec2_access_key_id, nil
 set :ec2_secret_access_key, nil
+set :ec2_session_token, nil
 set :ec2_region, %w{}
 set :ec2_contact_point, nil
 
