@@ -1,3 +1,5 @@
+require 'aws-sdk'
+
 module CapEC2
   class EC2Handler
     include CapEC2::Utils
@@ -12,8 +14,7 @@ module CapEC2
     end
 
     def ec2_connect(region=nil)
-      AWS.start_memoizing
-      AWS::EC2.new(
+      Aws::EC2::Client.new(
         access_key_id: fetch(:ec2_access_key_id),
         secret_access_key: fetch(:ec2_secret_access_key),
         region: region
@@ -30,7 +31,7 @@ module CapEC2
       puts defined_roles.map {|r| get_servers_for_role(r)}
                    .flatten
                    .uniq {|i| i.instance_id}
-                   .map {|i| i.tags["Name"]}
+                   .map {|i| tag_value(i, 'Name')}
                    .join("\n")
     end
 
@@ -59,19 +60,25 @@ module CapEC2
     end
 
     def get_servers_for_role(role)
+      filters = [
+        {name: 'tag-key', values: [stages_tag, project_tag]},
+        {name: tag(project_tag), values: ["*#{application}*"]},
+        {name: 'instance-state-name', values: %w(running)}
+      ]
+
       servers = []
       @ec2.each do |_, ec2|
-        instances = ec2.instances
-          .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-name', 'running')
-        servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, role) &&
-            instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application) &&
-            (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
+        ec2.describe_instances(filters: filters).reservations.each do |r|
+          servers += r.instances.select do |i|
+              instance_has_tag?(i, roles_tag, role) &&
+                instance_has_tag?(i, stages_tag, stage) &&
+                instance_has_tag?(i, project_tag, application) &&
+                (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
+          end
         end
       end
-      servers.flatten.sort_by {|s| s.tags["Name"] || ''}
+
+      servers.sort_by { |s| tag_value(s, 'Name') || '' }
     end
 
     def get_server(instance_id)
@@ -83,16 +90,15 @@ module CapEC2
     private
 
     def instance_has_tag?(instance, key, value)
-      (instance.tags[key] || '').split(',').map(&:strip).include?(value.to_s)
+      (tag_value(instance, key) || '').split(',').map(&:strip).include?(value.to_s)
     end
 
     def instance_status_ok?(instance)
       @ec2.any? do |_, ec2|
-        response = ec2.client.describe_instance_status(
-          instance_ids: [instance.id],
+        ec2.describe_instance_status(
+          instance_ids: [instance.instance_id],
           filters: [{ name: 'instance-status.status', values: %w(ok) }]
-        )
-        response.data.has_key?(:instance_status_set) && response.data[:instance_status_set].any?
+        ).instance_statuses.length == 1
       end
     end
   end

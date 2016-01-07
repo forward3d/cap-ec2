@@ -20,6 +20,10 @@ module CapEC2
       fetch(:ec2_stages_tag)
     end
 
+    def tag_value(instance, key)
+      instance.tags.find({}) { |t| t[:key] == key.to_s }[:value]
+    end
+
     def self.contact_point_mapping
       {
         :public_dns => :public_dns_name,
@@ -57,8 +61,7 @@ module CapEC2
       unless regions_array.nil? || regions_array.empty?
         return regions_array
       else
-        @ec2 = ec2_connect
-        @ec2.regions.map(&:name)
+        fail "You must specify at least one EC2 region."
       end
     end
 
