@@ -54,24 +54,44 @@ module CapEC2
       Capistrano::Configuration.env.fetch(:application).to_s
     end
 
+    def filter
+      f = Capistrano::Configuration.env.fetch(:ec2_filter)
+      f.respond_to?(:call) ? f.call : f
+    end
+
+    def default_filter
+      {
+        tag(project_tag) => "*#{application}*",
+        'instance-state-name' => "running"
+      }
+    end
+
     def tag(tag_name)
       "tag:#{tag_name}"
     end
 
-    def get_servers_for_role(role)
-      servers = []
-      @ec2.each do |_, ec2|
-        instances = ec2.instances
-          .filter(tag(project_tag), "*#{application}*")
-          .filter('instance-state-name', 'running')
-        servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, role) &&
-            instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application) &&
-            (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
-        end
+    def get_servers_for_filter(filter)
+      @ec2.flat_map do |_, ec2|
+        instances = ec2.instances.filter('instance-state-name', 'running')
+        filter.each {|key, val| instances = instances.filter(key.to_s, *Array(val).map(&:to_s)) }
+        instances.to_a
       end
-      servers.flatten.sort_by {|s| s.tags["Name"] || ''}
+    end
+
+    def get_servers_for_role(role)
+      servers = get_servers_for_filter(filter || default_filter)
+      servers.sort_by {|s| s.tags["Name"] || ''}.select do |i|
+        instance_has_tag?(i, roles_tag, role) &&
+          (filter ||
+            instance_has_tag?(i, stages_tag, stage) &&
+            instance_has_tag?(i, project_tag, application)
+          )
+      end
+      if fetch(:ec2_filter_by_status_ok?)
+        servers.select {|server| instance_status_ok? server }
+      else
+        servers
+      end
     end
 
     def get_server(instance_id)
