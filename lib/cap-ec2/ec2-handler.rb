@@ -60,10 +60,7 @@ module CapEC2
     end
 
     def default_filter
-      {
-        tag(project_tag) => "*#{application}*",
-        'instance-state-name' => "running"
-      }
+      { tag(project_tag) => "*#{application}*" }
     end
 
     def tag(tag_name)
