@@ -43,7 +43,7 @@ module CapEC2
     end
 
     def defined_roles
-      roles(:all).flat_map(&:roles_array).uniq.sort
+      roles(:all).flat_map {|i| i.roles_array | (i.properties.extra_roles || []) }.uniq.sort
     end
 
     def stage

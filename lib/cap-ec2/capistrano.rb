@@ -21,7 +21,7 @@ module Capistrano
       def ec2_role(name, options={})
         ec2_handler.get_servers_for_role(options.fetch(:roles, name)).each do |roles, servers|
           servers.each do |server|
-            env.role(name, CapEC2::Utils.contact_point(server), options_with_instance_id(options, server))
+            env.role(name, CapEC2::Utils.contact_point(server), options_with_instance_id(options, server, roles))
           end
         end
       end
@@ -32,8 +32,8 @@ module Capistrano
 
       private
 
-      def options_with_instance_id(options, server)
-        options.merge({aws_instance_id: server.instance_id})
+      def options_with_instance_id(options, server, extra_roles)
+        options.merge({aws_instance_id: server.instance_id, extra_roles: Array(extra_roles).map(&:to_sym)})
       end
 
     end
