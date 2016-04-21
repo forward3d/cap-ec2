@@ -76,14 +76,14 @@ module CapEC2
     end
 
     def get_servers_for_role(role)
-      servers = get_servers_for_filter(filter || default_filter)
-      servers.sort_by {|s| s.tags["Name"] || ''}.select do |i|
-        instance_has_tag?(i, roles_tag, role) &&
-          (filter ||
-            instance_has_tag?(i, stages_tag, stage) &&
-            instance_has_tag?(i, project_tag, application)
-          )
-      end
+      servers = get_servers_for_filter(filter || default_filter).
+                  sort_by {|s| s.tags["Name"] || ''}.select do |i|
+                    instance_has_tag?(i, roles_tag, role) &&
+                      (filter ||
+                        instance_has_tag?(i, stages_tag, stage) &&
+                        instance_has_tag?(i, project_tag, application)
+                      )
+                  end
       if fetch(:ec2_filter_by_status_ok?)
         servers.select {|server| instance_status_ok? server }
       else
