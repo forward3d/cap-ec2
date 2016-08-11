@@ -18,6 +18,12 @@ module Capistrano
         @ec2_handler ||= CapEC2::EC2Handler.new
       end
 
+      def ec2_roles(names, options={})
+        names.each do |name|
+          ec2_role(name, options)
+        end
+      end
+
       def ec2_role(name, options={})
         ec2_handler.get_servers_for_role(name).each do |server|
           env.role(name, CapEC2::Utils.contact_point(server),
