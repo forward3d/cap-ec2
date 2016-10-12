@@ -42,6 +42,16 @@ module CapEC2
                    .join("\n")
     end
 
+    def host_ips(roles=nil)
+      host_ips = []
+      roles = [ roles ] if ( roles && ! roles.is_a?(Array) )
+      roles = defined_roles if roles.nil?
+      roles.map {|r| get_servers_for_role(r)}.flatten.uniq {|i| i.instance_id}.each do |i|
+        host_ips << CapEC2::Utils.contact_point(i)
+      end
+      host_ips
+    end
+
     def defined_roles
       roles(:all).flat_map(&:roles_array).uniq.sort
     end
