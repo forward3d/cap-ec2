@@ -1,5 +1,10 @@
 # Cap-EC2 changelog
 
+## 1.0.1
+
+Added the possibility to get any tags defined on EC2 instance as parameters in Capistrano.
+Updated AWS-SDK to Ver 2.
+
 ## 1.0.0
 
 Cap-EC2 is pretty stable, and the rate of PRs has decreased, so I've
@@ -28,7 +33,7 @@ decided to bump the version to 1.0.0.
 
 ## 0.0.15
 
-* Add `ec2_filter_by_status_ok?` to filter out instances that aren't returning `OK` 
+* Add `ec2_filter_by_status_ok?` to filter out instances that aren't returning `OK`
   for their EC2 status checks. [@tomconroy](https://github.com/tomconroy)
 
 ## 0.0.14
