@@ -31,8 +31,7 @@ module CapEC2
     def self.contact_point(instance)
       ec2_interface = contact_point_mapping[fetch(:ec2_contact_point)]
       return instance.send(ec2_interface) if ec2_interface
-
-      instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
+      instance[:dns_name] || instance[:ip_address] || instance[:private_ip_address]
     end
 
     def load_config
