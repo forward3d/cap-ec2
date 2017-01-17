@@ -59,14 +59,17 @@ module CapEC2
     end
 
     def get_servers_for_role(role)
+      get_servers.keep_if {|s| instance_has_tag?(s, roles_tag, role)}
+    end
+
+    def get_servers
       servers = []
       @ec2.each do |_, ec2|
         instances = ec2.instances
           .filter(tag(project_tag), "*#{application}*")
           .filter('instance-state-name', 'running')
         servers << instances.select do |i|
-          instance_has_tag?(i, roles_tag, role) &&
-            instance_has_tag?(i, stages_tag, stage) &&
+          instance_has_tag?(i, stages_tag, stage) &&
             instance_has_tag?(i, project_tag, application) &&
             (fetch(:ec2_filter_by_status_ok?) ? instance_status_ok?(i) : true)
         end
