@@ -48,11 +48,11 @@ module CapEC2
     end
 
     def stage
-      Capistrano::Configuration.env.fetch(:stage).to_s
+      (Capistrano::Configuration.env.fetch(:ec2_stage) || Capistrano::Configuration.env.fetch(:stage)).to_s
     end
 
     def application
-      Capistrano::Configuration.env.fetch(:application).to_s
+      (Capistrano::Configuration.env.fetch(:ec2_application) || Capistrano::Configuration.env.fetch(:application)).to_s
     end
 
     def tag(tag_name)
