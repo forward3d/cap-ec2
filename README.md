@@ -50,30 +50,36 @@ set :ec2_stages_tag, 'Stages'
 
 set :ec2_access_key_id, nil
 set :ec2_secret_access_key, nil
-set :ec2_region, %w{}
+set :ec2_region, %w{} # REQUIRED
 set :ec2_contact_point, nil
 
 set :ec2_filter_by_status_ok?, nil
 ```
 
 #### Order of inheritance
+
 `cap-ec2` supports multiple methods of configuration. The order of inheritance is:
 YAML File > User Capistrano Config > Default Capistrano Config > ENV variables.
 
 #### Regions
-`:ec2_region` is an array of [AWS regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region), if not present all regions will be checked for matching instances - this the default behavior and can be slow, if speed is an issue consider setting your required regions.
 
-If`:ec2_access_key_id` or `:ec2_secret_access_key` are not set in any configuration the environment variables
-`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` will be checked.
-If running on EC2 the IAM instance profile credentials will be used if credentials are not set by any other method.
+`:ec2_region` is an array of
+[AWS regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region)
+and is required. Only list regions which you wish to query for
+instances; extra values simply slow down queries.
 
+If `:ec2_access_key_id` or `:ec2_secret_access_key` are not set in any
+configuration the environment variables `AWS_ACCESS_KEY_ID`,
+`AWS_SECRET_ACCESS_KEY` and `AWS_REGION` will be checked and the
+default credential load order (including instance profiles
+credentials) will be honored.
 
 #### Misc settings
 
 * project_tag
 
-  Cap-EC2 will look for a tag with this name when searching for instances that belong to this project. 
-  Cap-EC2 will look for a value which matches the :application setting in your deploy.rb. 
+  Cap-EC2 will look for a tag with this name when searching for instances that belong to this project.
+  Cap-EC2 will look for a value which matches the :application setting in your deploy.rb.
   The tag name defaults to "Project" and must be set on your instances.
 
 * stages_tag
