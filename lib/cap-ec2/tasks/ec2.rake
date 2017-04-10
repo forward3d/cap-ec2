@@ -31,5 +31,6 @@ namespace :load do
     set :ec2_secret_access_key, nil
     set :ec2_region, %w{}
 
+    set :ec2_tag_separator, ','
   end
 end
