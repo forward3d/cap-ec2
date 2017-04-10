@@ -1,5 +1,5 @@
 require 'capistrano/configuration'
-require 'aws-sdk-v1'
+require 'aws-sdk'
 require 'colorize'
 require 'terminal-table'
 require 'yaml'
