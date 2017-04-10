@@ -1,5 +1,5 @@
 require 'capistrano/configuration'
-require 'aws-sdk-v1'
+require 'aws-sdk'
 require 'colorize'
 require 'terminal-table'
 require 'yaml'
@@ -16,6 +16,12 @@ module Capistrano
 
       def ec2_handler
         @ec2_handler ||= CapEC2::EC2Handler.new
+      end
+
+      def ec2_roles(names, options={})
+        names.each do |name|
+          ec2_role(name, options)
+        end
       end
 
       def ec2_role(name, options={})
