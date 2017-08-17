@@ -1,5 +1,11 @@
 # Cap-EC2 changelog
 
+## 1.1.1
+
+Require aws-sdk v2 instead of v1
+
+* Require aws-sdk v2 instead of v1 [@hajder](https://github.com/hajder)
+
 ## 1.1.0
 
 Upgrade to AWS's v2 SDK
