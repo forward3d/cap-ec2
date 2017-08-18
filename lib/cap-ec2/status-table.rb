@@ -30,7 +30,7 @@ module CapEC2
       )
       table.add_row header_row
       @instances.each_with_index do |instance,index|
-        table.add_row instance_to_row(instance, index)
+        table.add_row instance_to_row(instance, index + 1)
       end
       puts table.to_s
     end
