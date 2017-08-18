@@ -48,6 +48,7 @@ set :ec2_project_tag, 'Project'
 set :ec2_roles_tag, 'Roles'
 set :ec2_stages_tag, 'Stages'
 
+set :ec2_profile, 'myservice'       # use ~/.aws/credentials with profile_name
 set :ec2_access_key_id, nil
 set :ec2_secret_access_key, nil
 set :ec2_region, %w{} # REQUIRED
@@ -59,7 +60,7 @@ set :ec2_filter_by_status_ok?, nil
 #### Order of inheritance
 
 `cap-ec2` supports multiple methods of configuration. The order of inheritance is:
-YAML File > User Capistrano Config > Default Capistrano Config > ENV variables.
+YAML File > ~/.aws/credentials > User Capistrano Config > Default Capistrano Config > ENV variables.
 
 #### Regions
 
