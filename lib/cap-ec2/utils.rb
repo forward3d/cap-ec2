@@ -27,7 +27,7 @@ module CapEC2
     end
 
     def tag_value(instance, key)
-      instance.tags.find({}) { |t| t[:key] == key.to_s }[:value]
+      instance.tags.find(-> { {} }) { |t| t[:key] == key.to_s }[:value]
     end
 
     def self.contact_point_mapping
