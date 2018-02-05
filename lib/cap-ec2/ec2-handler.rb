@@ -90,7 +90,7 @@ module CapEC2
     private
 
     def instance_has_tag?(instance, key, value)
-      (tag_value(instance, key) || '').split(',').map(&:strip).include?(value.to_s)
+      (tag_value(instance, key) || '').split(tag_delimiter).map(&:strip).include?(value.to_s)
     end
 
     def instance_status_ok?(instance)
