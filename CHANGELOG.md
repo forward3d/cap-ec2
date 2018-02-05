@@ -1,5 +1,11 @@
 # Cap-EC2 changelog
 
+## 1.1.2
+
+* Allow using aws-sdk v3 [@magnusvk](https://github.com/magnusvk)
+* Fix NoMethodError undefined method call for Hash [@ur5us](https://github.com/ur5us)
+* Allow tag value delimiter to be configurable [@erez-rabih](https://github.com/erez-rabih)
+
 ## 1.1.1
 
 Require aws-sdk v2 instead of v1
