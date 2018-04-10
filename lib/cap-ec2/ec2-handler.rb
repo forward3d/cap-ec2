@@ -1,4 +1,4 @@
-require 'aws-sdk'
+equire 'aws-sdk-ec2'
 
 module CapEC2
   class EC2Handler
