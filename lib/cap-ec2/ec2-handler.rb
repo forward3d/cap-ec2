@@ -95,10 +95,14 @@ module CapEC2
 
     def instance_status_ok?(instance)
       @ec2.any? do |_, ec2|
-        ec2.describe_instance_status(
-          instance_ids: [instance.instance_id],
-          filters: [{ name: 'instance-status.status', values: %w(ok) }]
-        ).instance_statuses.length == 1
+        begin
+          ec2.describe_instance_status(
+            instance_ids: [instance.instance_id],
+            filters: [{ name: 'instance-status.status', values: %w(ok) }]
+          ).instance_statuses.length == 1
+        rescue Aws::EC2::Errors::InvalidInstanceIDNotFound
+          false
+        end
       end
     end
   end
