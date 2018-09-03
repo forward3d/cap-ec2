@@ -46,14 +46,6 @@ module CapEC2
     end
 
     def load_config
-      if fetch(:ec2_profile)
-        credentials = Aws::SharedCredentials.new(profile_name: fetch(:ec2_profile)).credentials
-        if credentials
-          set :ec2_access_key_id, credentials.access_key_id
-          set :ec2_secret_access_key, credentials.secret_access_key
-        end
-      end
-
       config_location = File.expand_path(fetch(:ec2_config), Dir.pwd) if fetch(:ec2_config)
       if config_location && File.exists?(config_location)
         config = YAML.load(ERB.new(File.read(fetch(:ec2_config))))

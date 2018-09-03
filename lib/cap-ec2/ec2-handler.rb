@@ -14,9 +14,16 @@ module CapEC2
     end
 
     def ec2_connect(region=nil)
+      credentials = if fetch(:ec2_profile)
+        Aws::SharedCredentials.new(profile_name: fetch(:ec2_profile))
+      else
+        Aws::Credentials.new(
+          fetch(:ec2_access_key_id),
+          fetch(:ec2_secret_access_key),
+        )
+      end
       Aws::EC2::Client.new(
-        access_key_id: fetch(:ec2_access_key_id),
-        secret_access_key: fetch(:ec2_secret_access_key),
+        credentials: credentials,
         region: region
       )
     end
