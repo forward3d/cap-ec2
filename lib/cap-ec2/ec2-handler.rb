@@ -72,6 +72,7 @@ module CapEC2
         end
       end
       servers.flatten.sort_by {|s| s.tags["Name"] || ''}.
+        select{|i| !ENV['instance_ip'] || (ENV['instance_ip'] == i.private_ip_address)}.
         select{|i| !ENV['instance_name'] || (ENV['instance_name'] == i.tags['Name'])}.
         select{|i| !ENV['role_name'] || i.tags['Roles'].split(/ *, */).include?(ENV['role_name'])}
     end
