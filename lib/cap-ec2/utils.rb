@@ -68,6 +68,10 @@ module CapEC2
           set :ec2_region, config['regions'] if config['regions']
 
           set :ec2_filter_by_status_ok?, config['filter_by_status_ok?'] if config['filter_by_status_ok?']
+
+          set :ec2_assume_role, !!config['ec2_assume_role'] if config['ec2_assume_role'].to_s == 'true'
+          set :ec2_role_assumption, config['ec2_role_assumption'] if config['ec2_role_assumption']
+          set :ec2_role_session_name, config['ec2_role_session_name'] if config['ec2_role_session_name']
         end
       end
     end

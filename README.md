@@ -56,6 +56,10 @@ set :ec2_region, %w{} # REQUIRED
 set :ec2_contact_point, nil
 
 set :ec2_filter_by_status_ok?, nil
+
+set :ec2_assume_role, true # enable role assumption
+set :ec2_role_assumption, 'role assumption arn'
+set :ec2_role_session_name, 'role assumption session name'
 ```
 
 #### Order of inheritance
