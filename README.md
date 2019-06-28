@@ -1,3 +1,7 @@
+# This repository is no longer maintained.
+
+Forward3D has not used cap-ec2 in production for several years, and thus we will no longer be maintaining this.
+
 # Cap-EC2
 
 [![Gem Version](https://badge.fury.io/rb/cap-ec2.svg)](http://badge.fury.io/rb/cap-ec2) [![Code Climate](https://codeclimate.com/github/forward3d/cap-ec2.png)](https://codeclimate.com/github/forward3d/cap-ec2)
