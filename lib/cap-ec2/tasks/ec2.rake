@@ -32,5 +32,9 @@ namespace :load do
     set :ec2_secret_access_key, nil
     set :ec2_region, %w{}
 
+    set :ec2_assume_role, false
+    set :ec2_role_assumption, nil
+    set :ec2_role_session_name, nil
+
   end
 end
