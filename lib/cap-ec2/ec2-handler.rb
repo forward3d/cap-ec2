@@ -52,7 +52,11 @@ module CapEC2
     end
 
     def application
-      Capistrano::Configuration.env.fetch(:application).to_s
+      appname = Capistrano::Configuration.env.fetch(:ec2_application).to_s
+      if appname.nil? || appname.length < 1
+        appname = Capistrano::Configuration.env.fetch(:application).to_s
+      end
+      appname
     end
 
     def tag(tag_name)
