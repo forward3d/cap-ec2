@@ -15,6 +15,12 @@ namespace :ec2 do
     ec2_handler.instance_ids
   end
 
+  desc "Show EC2 host_ips that match this project, optional filter for cap role: ec2:host_ips[<role>]"
+  task :host_ips, :role do |_t, args|
+    roles = args[:role] ? [ args[:role] ] : [:app, :web, :db]
+    puts ec2_handler.host_ips(roles)
+  end
+
 end
 
 
