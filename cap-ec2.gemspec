@@ -5,7 +5,7 @@ require 'cap-ec2/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cap-ec2"
-  spec.version       = CapEC2::VERSION
+  spec.version       = "1.1.3"
   spec.authors       = ["Andy Sykes", "Robert Coleman", "Forward3D Developers"]
   spec.email         = ["github@tinycat.co.uk", "github@robert.net.nz", "developers@forward3d.com"]
   spec.description   = %q{Cap-EC2 is used to generate Capistrano namespaces and tasks from Amazon EC2 instance tags, dynamically building the list of servers to be deployed to.}
