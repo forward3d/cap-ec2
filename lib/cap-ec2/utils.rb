@@ -55,7 +55,7 @@ module CapEC2
       end
 
       config_location = File.expand_path(fetch(:ec2_config), Dir.pwd) if fetch(:ec2_config)
-      if config_location && File.exists?(config_location)
+      if config_location && File.exist?(config_location)
         config = YAML.load(ERB.new(File.read(fetch(:ec2_config))))
         if config
           set :ec2_project_tag, config['project_tag'] if config['project_tag']
